@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -36,7 +37,9 @@ public class Questions {
 	private String correctOption;
 
 	@ManyToOne
+	@JoinColumn(name = "quiz_id") // or true, based on design
 	private Quiz quiz;
+
 
 	public Long getId() {
 		return id;
