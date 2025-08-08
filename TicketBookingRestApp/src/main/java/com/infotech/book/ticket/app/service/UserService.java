@@ -1,5 +1,6 @@
 package com.infotech.book.ticket.app.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -25,6 +26,11 @@ public class UserService {
 
 	public Optional<User> findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	public List<User> getAllUsers() {
+		logger.info("fetch all User from database...");
+		return userRepository.findAll();
 	}
 
 }
