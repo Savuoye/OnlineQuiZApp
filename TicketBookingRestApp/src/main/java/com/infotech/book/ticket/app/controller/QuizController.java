@@ -19,6 +19,7 @@ import com.infotech.book.ticket.app.service.UserService;
 
 @RestController
 @RequestMapping(value = "/api/quiz")
+@CrossOrigin("http://localhost:8080")
 public class QuizController {
 
 	/*
