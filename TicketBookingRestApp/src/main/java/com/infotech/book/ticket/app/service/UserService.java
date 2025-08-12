@@ -1,5 +1,6 @@
 package com.infotech.book.ticket.app.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -29,11 +30,17 @@ public class UserService {
 		return userRepository.findByEmail(email);
 	}
 
+<<<<<<< HEAD
 	public LoginResponse authenticateUser(LoginRequest loginRequest) {
 		User user = userRepository.findByUserNameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
 		boolean isAuthenticated = user != null;
 
 		return new LoginResponse(user, isAuthenticated);
+=======
+	public List<User> getAllUsers() {
+		logger.info("fetch all User from database...");
+		return userRepository.findAll();
+>>>>>>> 5346c291406afa97e6f4ba5a22b0bb685b87cca2
 	}
 
 }
