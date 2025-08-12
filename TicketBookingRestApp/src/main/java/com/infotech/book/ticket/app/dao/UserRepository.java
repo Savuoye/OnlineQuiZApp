@@ -9,5 +9,6 @@ import com.infotech.book.ticket.app.entities.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByEmail(String email);
 
+	User findByUserNameAndPassword(String username , String password);
 
 }
