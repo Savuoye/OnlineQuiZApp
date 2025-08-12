@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.infotech.book.ticket.app.dao.UserRepository;
 import com.infotech.book.ticket.app.entities.User;
+import com.infotech.book.ticket.app.response.LoginResponse;
+import com.infotech.book.ticket.request.LoginRequest;
 
 @Service
 public class UserService {
@@ -25,6 +27,13 @@ public class UserService {
 
 	public Optional<User> findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	public LoginResponse authenticateUser(LoginRequest loginRequest) {
+		User user = userRepository.findByUserNameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
+		boolean isAuthenticated = user != null;
+
+		return new LoginResponse(user, isAuthenticated);
 	}
 
 }
