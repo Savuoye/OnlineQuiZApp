@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.infotech.book.ticket.app.dao.UserRepository;
 import com.infotech.book.ticket.app.entities.User;
+import com.infotech.book.ticket.app.response.LoginResponse;
+import com.infotech.book.ticket.request.LoginRequest;
 
 @Service
 public class UserService {
@@ -28,9 +30,17 @@ public class UserService {
 		return userRepository.findByEmail(email);
 	}
 
+<<<<<<< HEAD
+	public LoginResponse authenticateUser(LoginRequest loginRequest) {
+		User user = userRepository.findByUserNameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
+		boolean isAuthenticated = user != null;
+
+		return new LoginResponse(user, isAuthenticated);
+=======
 	public List<User> getAllUsers() {
 		logger.info("fetch all User from database...");
 		return userRepository.findAll();
+>>>>>>> 5346c291406afa97e6f4ba5a22b0bb685b87cca2
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.infotech.book.ticket.app.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,10 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.infotech.book.ticket.app.dao.UserRepository;
 import com.infotech.book.ticket.app.entities.User;
+import com.infotech.book.ticket.app.response.LoginResponse;
 import com.infotech.book.ticket.app.service.UserService;
+import com.infotech.book.ticket.request.LoginRequest;
 
 @RestController
 @RequestMapping(value = "/api/quiz")
@@ -93,6 +92,18 @@ public class QuizController {
 	public List<User> getAllUser()
 	{
 		 return userService.getAllUsers();
+	}
+
+	@CrossOrigin
+	@PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
+		LoginResponse loginResponse = userService.authenticateUser(loginRequest);
+		if (loginResponse.isAuthenticated()) {
+			return ResponseEntity.ok(loginResponse);
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponse);
+		}
+
 	}
 
 }
