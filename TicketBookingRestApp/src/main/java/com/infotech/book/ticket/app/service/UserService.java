@@ -29,18 +29,17 @@ public class UserService {
 	public Optional<User> findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
+	
+	public List<User> getAllUsers() {
+		logger.info("Fetch all data from database :::::");
+		return userRepository.findAll();
+	}
 
-<<<<<<< HEAD
 	public LoginResponse authenticateUser(LoginRequest loginRequest) {
 		User user = userRepository.findByUserNameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
 		boolean isAuthenticated = user != null;
 
 		return new LoginResponse(user, isAuthenticated);
-=======
-	public List<User> getAllUsers() {
-		logger.info("fetch all User from database...");
-		return userRepository.findAll();
->>>>>>> 5346c291406afa97e6f4ba5a22b0bb685b87cca2
 	}
 
 }
