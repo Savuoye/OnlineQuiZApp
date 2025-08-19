@@ -36,7 +36,7 @@ public class UserService {
 	}
 
 	public LoginResponse authenticateUser(LoginRequest loginRequest) {
-		User user = userRepository.findByUserNameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
+		User user = userRepository.findByUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
 		boolean isAuthenticated = user != null;
 
 		return new LoginResponse(user, isAuthenticated);
