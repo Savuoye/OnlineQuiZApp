@@ -19,6 +19,7 @@ import com.infotech.book.dao.UploadResult;
 import com.infotech.book.ticket.app.dao.QuizRepository;
 import com.infotech.book.ticket.app.entities.Questions;
 import com.infotech.book.ticket.app.entities.Quiz;
+import com.infotech.book.ticket.exception.NoQuizzesFoundException;
 
 @Service
 public class QuizServiceImpl {
@@ -71,14 +72,16 @@ public class QuizServiceImpl {
 		} catch (IOException ex) {
 			throw new RuntimeException("Failed to parse CSV", ex);
 		}
-		  return new UploadResult(questions.size(), errorRows);
-
+		return new UploadResult(questions.size(), errorRows);
 
 	}
 
-	public Quiz getQuizById(Long quizId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Quiz> getAllQuizzes() {
+		List<Quiz> quizzes = quizRepo.findAll();
+		if (quizzes == null || quizzes.isEmpty()) {
+			throw new NoQuizzesFoundException("No quizzes available in the system.");
+		}
+		return quizzes;
 	}
 
 }

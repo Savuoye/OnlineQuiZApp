@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.infotech.book.dao.UploadResult;
+import com.infotech.book.ticket.app.entities.Quiz;
 import com.infotech.book.ticket.app.entities.User;
 import com.infotech.book.ticket.app.response.LoginResponse;
 import com.infotech.book.ticket.app.service.QuizServiceImpl;
@@ -33,7 +34,7 @@ public class QuizController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private QuizServiceImpl quizServiceImpl;
 
@@ -114,10 +115,18 @@ public class QuizController {
 
 	}
 
+	@CrossOrigin
 	@PostMapping("/bulk-upload")
 	public ResponseEntity<UploadResult> uploadQuiz(@RequestParam("file") MultipartFile file) {
 		UploadResult result = quizServiceImpl.uploadQuizFromCSV(file);
 		return ResponseEntity.ok(result);
+	}
+
+	@CrossOrigin
+	@GetMapping(value ="/getAllQuiz" , consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Quiz>> getAllQuizzes() {
+		List<Quiz> quizzes = quizServiceImpl.getAllQuizzes();
+		return ResponseEntity.ok(quizzes);
 	}
 
 }
