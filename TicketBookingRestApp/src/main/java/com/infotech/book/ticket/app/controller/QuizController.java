@@ -1,6 +1,7 @@
 package com.infotech.book.ticket.app.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,9 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.infotech.book.dao.UploadResult;
 import com.infotech.book.ticket.app.entities.User;
 import com.infotech.book.ticket.app.response.LoginResponse;
+import com.infotech.book.ticket.app.service.QuizServiceImpl;
 import com.infotech.book.ticket.app.service.UserService;
 import com.infotech.book.ticket.request.LoginRequest;
 
@@ -27,6 +33,9 @@ public class QuizController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private QuizServiceImpl quizServiceImpl;
 
 	/*
 	 * @CrossOrigin
@@ -87,11 +96,10 @@ public class QuizController {
 		User savedUser = userService.createUser(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 	}
-	
-	@GetMapping(value = "/users" , produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<User> getAllUser()
-	{
-		 return userService.getAllUsers();
+
+	@GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<User> getAllUser() {
+		return userService.getAllUsers();
 	}
 
 	@CrossOrigin
@@ -104,6 +112,12 @@ public class QuizController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponse);
 		}
 
+	}
+
+	@PostMapping("/bulk-upload")
+	public ResponseEntity<UploadResult> uploadQuiz(@RequestParam("file") MultipartFile file) {
+		UploadResult result = quizServiceImpl.uploadQuizFromCSV(file);
+		return ResponseEntity.ok(result);
 	}
 
 }

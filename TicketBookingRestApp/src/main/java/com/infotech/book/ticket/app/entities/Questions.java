@@ -2,12 +2,17 @@ package com.infotech.book.ticket.app.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "questions")
@@ -18,28 +23,37 @@ public class Questions {
 	@Column(name = "id")
 	private Long id;
 
+	@NotBlank(message = "Question text must not be blank")
 	@Column(name = "text")
 	private String text;
 
+	@NotBlank(message = "Option A must not be blank")
 	@Column(name = "optionA")
 	private String optionA;
 
+	@NotBlank(message = "Option B must not be blank")
 	@Column(name = "optionB")
 	private String optionB;
 
+	@NotBlank(message = "Option C must not be blank")
 	@Column(name = "optionC")
 	private String optionC;
 
+	@NotBlank(message = "Option D must not be blank")
 	@Column(name = "optionD")
 	private String optionD;
 
+	@Pattern(regexp = "A|B|C|D", message = "Correct option must be one of A, B, C, or D")
 	@Column(name = "correctOption")
 	private String correctOption;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "quiz_id") // or true, based on design
 	private Quiz quiz;
 
+	@Lob
+	@Column(columnDefinition = "TEXT")
+	private String explanation;
 
 	public Long getId() {
 		return id;
