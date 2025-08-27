@@ -82,6 +82,7 @@ public class QuizServiceImpl {
 			throw new NoQuizzesFoundException("No quizzes available in the system.");
 		}
 		return quizzes;
+		
 	}
 
 }
