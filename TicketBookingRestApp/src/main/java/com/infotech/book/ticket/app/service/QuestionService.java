@@ -1,7 +1,5 @@
 package com.infotech.book.ticket.app.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +34,4 @@ public class QuestionService {
 		return questionRepository.save(questions);
 	}
 
-	public Optional<Questions> findQuestionById(Long id) {
-		return questionRepository.findByQuestionId(id);
-	}
 }
