@@ -75,6 +75,7 @@ public class QuizServiceImpl {
 		return new UploadResult(questions.size(), errorRows);
 
 	}
+	
 
 	public List<Quiz> getAllQuizzes() {
 		List<Quiz> quizzes = quizRepo.findAll();

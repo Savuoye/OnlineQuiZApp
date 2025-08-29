@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
-
 @Entity
 @Table(name = "quiz")
 public class Quiz {
@@ -79,7 +77,5 @@ public class Quiz {
 		return "Quiz [id=" + id + ", title=" + title + ", description=" + description + ", durationInSeconds="
 				+ durationInSeconds + ", questions=" + questions + "]";
 	}
-	
-	
 
 }
