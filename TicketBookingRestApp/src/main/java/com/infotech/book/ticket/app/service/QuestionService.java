@@ -22,16 +22,18 @@ public class QuestionService {
 	}
 
 	public Questions updateQuestion(Long id, Questions questionDetails) {
-		Questions questions = questionRepository.findById(id);
 
-		questions.setText(questionDetails.getText());
-		questions.setOptionA(questionDetails.getOptionA());
-		questions.setOptionB(questionDetails.getOptionB());
-		questions.setOptionC(questionDetails.getOptionC());
-		questions.setOptionD(questionDetails.getOptionD());
-		questions.setCorrectOption(questionDetails.getCorrectOption());
+		Questions question = questionRepository.fetchByIdCustom(id)
+				.orElseThrow(() -> new IllegalArgumentException("Question not found with id: " + id));
 
-		return questionRepository.save(questions);
+		question.setText(questionDetails.getText());
+		question.setOptionA(questionDetails.getOptionA());
+		question.setOptionB(questionDetails.getOptionB());
+		question.setOptionC(questionDetails.getOptionC());
+		question.setOptionD(questionDetails.getOptionD());
+		question.setCorrectOption(questionDetails.getCorrectOption());
+		return questionRepository.save(question);
+
 	}
 
 }
