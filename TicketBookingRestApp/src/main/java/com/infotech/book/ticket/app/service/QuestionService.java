@@ -33,7 +33,9 @@ public class QuestionService {
 		question.setOptionD(questionDetails.getOptionD());
 		question.setCorrectOption(questionDetails.getCorrectOption());
 		return questionRepository.save(question);
-
 	}
 
+	public void deleteQuestions(Long id) {
+		questionRepository.delete(id);
+	}
 }
