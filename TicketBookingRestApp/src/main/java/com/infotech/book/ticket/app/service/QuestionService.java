@@ -22,6 +22,7 @@ public class QuestionService {
 	}
 
 	public Questions updateQuestion(Long id, Questions questionDetails) {
+
 		Questions question = questionRepository.fetchByIdCustom(id)
 				.orElseThrow(() -> new IllegalArgumentException("Question not found with id: " + id));
 
