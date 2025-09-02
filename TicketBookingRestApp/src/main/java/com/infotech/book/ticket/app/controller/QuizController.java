@@ -8,7 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.infotech.book.dao.UploadResult;
+import com.infotech.book.ticket.app.entities.Questions;
 import com.infotech.book.ticket.app.entities.Quiz;
 import com.infotech.book.ticket.app.entities.User;
 import com.infotech.book.ticket.app.response.LoginResponse;
+import com.infotech.book.ticket.app.service.QuestionService;
 import com.infotech.book.ticket.app.service.QuizServiceImpl;
 import com.infotech.book.ticket.app.service.UserService;
 import com.infotech.book.ticket.request.LoginRequest;
@@ -37,6 +41,9 @@ public class QuizController {
 
 	@Autowired
 	private QuizServiceImpl quizServiceImpl;
+
+	@Autowired
+	private QuestionService questionService;
 
 	/*
 	 * @CrossOrigin
@@ -123,10 +130,16 @@ public class QuizController {
 	}
 
 	@CrossOrigin
-	@GetMapping(value ="/getAllQuiz" , consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/getAllQuiz", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Quiz>> getAllQuizzes() {
 		List<Quiz> quizzes = quizServiceImpl.getAllQuizzes();
 		return ResponseEntity.ok(quizzes);
+	}
+
+	@PutMapping(value = "/questions/{id}/edit", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Questions> updateQuestion(@PathVariable Long id, @RequestBody Questions questionDetails) {
+		Questions updatedQuestion = questionService.updateQuestion(id, questionDetails);
+		return ResponseEntity.ok(updatedQuestion);
 	}
 
 }
