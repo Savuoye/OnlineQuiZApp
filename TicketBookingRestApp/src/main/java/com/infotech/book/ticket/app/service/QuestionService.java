@@ -1,5 +1,9 @@
 package com.infotech.book.ticket.app.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +33,20 @@ public class QuestionService {
 
 	public Questions updateQuestion(Long id, Questions questionDetails) {
 
-		Questions question = questionRepository.fetchByIdCustom(id)
-				.orElseThrow(() -> new IllegalArgumentException("Question not found with id: " + id));
+		List<Questions> question = questionRepository.fetchByIdCustom(id);
+		// .orElseThrow(() -> new IllegalArgumentException("Question not found with id:
+		// " + id));
 
-		question.setText(questionDetails.getText());
-		question.setOptionA(questionDetails.getOptionA());
-		question.setOptionB(questionDetails.getOptionB());
-		question.setOptionC(questionDetails.getOptionC());
-		question.setOptionD(questionDetails.getOptionD());
-		question.setCorrectOption(questionDetails.getCorrectOption());
+		((Questions) question).setText(questionDetails.getText());
+		((Questions) question).setOptionA(questionDetails.getOptionA());
+		((Questions) question).setOptionB(questionDetails.getOptionB());
+		((Questions) question).setOptionC(questionDetails.getOptionC());
+		((Questions) question).setOptionD(questionDetails.getOptionD());
+		((Questions) question).setCorrectOption(questionDetails.getCorrectOption());
 
 		logger.info("Fertching updated questions from database::::");
 
-		return questionRepository.save(question);
+		return (Questions) questionRepository.save(question);
 
 	}
 
@@ -49,5 +54,15 @@ public class QuestionService {
 
 		logger.info("deleting questions from database :::");
 		questionRepository.delete(id);
+	}
+
+	public Map<Long, String> getCorrectAnswers(Long id) {
+		List<Questions> questions = questionRepository.fetchByIdCustom(id);
+		Map<Long, String> correctAnswers = new HashMap<>();
+		for (Questions question : questions) {
+			correctAnswers.put(question.getId(), question.getCorrectOption());
+			logger.info("Question ID : " + question.getId() + "Correct Answer :" + question.getCorrectOption());
+		}
+		return correctAnswers;
 	}
 }
