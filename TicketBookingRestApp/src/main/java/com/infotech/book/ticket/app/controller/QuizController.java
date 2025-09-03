@@ -34,10 +34,6 @@ import com.infotech.book.ticket.request.LoginRequest;
 @CrossOrigin("http://localhost:8080")
 public class QuizController {
 
-	/*
-	 * @Autowired private TicketBookingService ticketBookingService;
-	 */
-
 	@Autowired
 	private UserService userService;
 
@@ -49,59 +45,6 @@ public class QuizController {
 
 	@Autowired
 	private QuestionRepository questionRepository;
-
-	/*
-	 * @CrossOrigin
-	 * 
-	 * @PostMapping(value="/create",consumes=MediaType.APPLICATION_JSON_VALUE,
-	 * produces=MediaType.APPLICATION_JSON_VALUE) public Ticket
-	 * createTicket(@RequestBody Ticket ticket){ return
-	 * ticketBookingService.createTicket(ticket); }
-	 */
-
-	/*
-	 * @CrossOrigin
-	 * 
-	 * @GetMapping(value="/ticketId/{ticketId}",produces=MediaType.
-	 * APPLICATION_JSON_VALUE) public Ticket
-	 * getTicketById(@PathVariable("ticketId")Integer ticketId){ return
-	 * ticketBookingService.getTicketById(ticketId); }
-	 */
-
-	/*
-	 * @CrossOrigin
-	 * 
-	 * @GetMapping(value="/alltickets",produces=MediaType.APPLICATION_JSON_VALUE)
-	 * public Iterable<Ticket> getAllBookedTickets(){ return
-	 * ticketBookingService.getAllBookedTickets(); }
-	 */
-
-	/*
-	 * @CrossOrigin
-	 * 
-	 * @GetMapping(value="/email/{email:.+}",produces=MediaType.
-	 * APPLICATION_JSON_VALUE) public Ticket
-	 * getTicketByEmail(@PathVariable("email")String email){ return
-	 * ticketBookingService.getTicketByEmail(email); }
-	 */
-
-	/*
-	 * @CrossOrigin
-	 * 
-	 * @DeleteMapping(value="/ticketId/{ticketId}") public void
-	 * deleteTicket(@PathVariable("ticketId")Integer ticketId){
-	 * ticketBookingService.deleteTicket(ticketId); }
-	 */
-
-	/*
-	 * @CrossOrigin
-	 * 
-	 * @PutMapping(value="/ticketId/{ticketId}/email/{newEmail:.+}",produces=
-	 * MediaType.APPLICATION_JSON_VALUE) public Ticket
-	 * updateTicket(@PathVariable("ticketId")Integer
-	 * ticketId,@PathVariable("newEmail")String newEmail){ return
-	 * ticketBookingService.updateTicket(ticketId,newEmail); }
-	 */
 
 	@CrossOrigin
 	@PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -136,7 +79,7 @@ public class QuizController {
 
 	@CrossOrigin
 	@GetMapping(value = "/getAllQuiz", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Quiz>> getAllQuizzes() {
+	public ResponseEntity<List<Quiz>> getAllQuizz() {
 		List<Quiz> quizzes = quizServiceImpl.getAllQuizzes();
 		return ResponseEntity.ok(quizzes);
 	}
