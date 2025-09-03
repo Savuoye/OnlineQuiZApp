@@ -146,6 +146,19 @@ public class QuizController {
 		Questions updatedQuestion = questionService.updateQuestion(id, questionDetails);
 		return ResponseEntity.ok(updatedQuestion);
 	}
+	
+	@PostMapping(value = "/quizzes/{quizId}/questions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Questions> addQuestions(@PathVariable Long quizId, @RequestBody Questions questionDetails) {
+
+		Quiz quiz = (Quiz) quizServiceImpl.getAllQuizzes();
+		if (quiz == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+		questionDetails.setQuiz(quiz);
+		Questions savedQuestions = (Questions) questionService.saveQuestion(questionDetails);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedQuestions);
+
+	}
 
 	@DeleteMapping("/questions/{id}")
 	public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
@@ -156,4 +169,5 @@ public class QuizController {
 		questionRepository.delete(id);
 		return ResponseEntity.noContent().build(); // 204 No Content
 	}
+
 }
