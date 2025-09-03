@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -25,7 +26,7 @@ import com.infotech.book.ticket.exception.NoQuizzesFoundException;
 public class QuizServiceImpl {
 
 	@Autowired
-	private QuizRepository quizRepo;
+	private QuizRepository quizRepository;
 
 	@Autowired
 	private Validator validator;
@@ -67,7 +68,7 @@ public class QuizServiceImpl {
 				questions.add(q);
 			}
 			quiz.setQuestions(questions);
-			quizRepo.save(quiz);
+			quizRepository.save(quiz);
 
 		} catch (IOException ex) {
 			throw new RuntimeException("Failed to parse CSV", ex);
@@ -75,15 +76,18 @@ public class QuizServiceImpl {
 		return new UploadResult(questions.size(), errorRows);
 
 	}
-	
 
 	public List<Quiz> getAllQuizzes() {
-		List<Quiz> quizzes = quizRepo.findAll();
+		List<Quiz> quizzes = quizRepository.findAll();
 		if (quizzes == null || quizzes.isEmpty()) {
 			throw new NoQuizzesFoundException("No quizzes available in the system.");
 		}
 		return quizzes;
-		
+
+	}
+
+	public Quiz getQuizById(Long id) {
+		return quizRepository.findQuizById(id).orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
 	}
 
 }
