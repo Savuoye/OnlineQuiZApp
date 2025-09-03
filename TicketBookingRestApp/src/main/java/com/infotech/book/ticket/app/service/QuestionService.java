@@ -1,5 +1,7 @@
 package com.infotech.book.ticket.app.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +14,12 @@ public class QuestionService {
 	@Autowired
 	private QuestionRepository questionRepository;
 
+	private final Logger logger = LoggerFactory.getLogger(QuestionService.class);
+
 	@SuppressWarnings("unchecked")
 	public Object saveQuestion(Questions questions) {
+
+		logger.info("Adding questions into the database ::::");
 		return questionRepository.save(questions);
 	}
 
@@ -32,10 +38,16 @@ public class QuestionService {
 		question.setOptionC(questionDetails.getOptionC());
 		question.setOptionD(questionDetails.getOptionD());
 		question.setCorrectOption(questionDetails.getCorrectOption());
+
+		logger.info("Fertching updated questions from database::::");
+
 		return questionRepository.save(question);
+
 	}
 
 	public void deleteQuestions(Long id) {
+
+		logger.info("deleting questions from database :::");
 		questionRepository.delete(id);
 	}
 }

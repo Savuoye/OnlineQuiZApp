@@ -12,6 +12,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +32,8 @@ public class QuizServiceImpl {
 
 	@Autowired
 	private Validator validator;
+
+	private final Logger logger = LoggerFactory.getLogger(QuizServiceImpl.class);
 
 	public UploadResult uploadQuizFromCSV(MultipartFile file) {
 
@@ -73,6 +77,9 @@ public class QuizServiceImpl {
 		} catch (IOException ex) {
 			throw new RuntimeException("Failed to parse CSV", ex);
 		}
+
+		logger.info("Uploading bulk questions from the database:::");
+
 		return new UploadResult(questions.size(), errorRows);
 
 	}
@@ -82,11 +89,14 @@ public class QuizServiceImpl {
 		if (quizzes == null || quizzes.isEmpty()) {
 			throw new NoQuizzesFoundException("No quizzes available in the system.");
 		}
+
+		logger.info("Getting all quizzes from the database:::");
 		return quizzes;
 
 	}
 
 	public Quiz getQuizById(Long id) {
+		logger.info("Getting quizzes in the form  of id  from the database:::");
 		return quizRepository.findQuizById(id).orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
 	}
 
