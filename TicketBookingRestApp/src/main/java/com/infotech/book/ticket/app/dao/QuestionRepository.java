@@ -1,6 +1,6 @@
 package com.infotech.book.ticket.app.dao;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +12,6 @@ import com.infotech.book.ticket.app.entities.Questions;
 public interface QuestionRepository extends JpaRepository<Questions, Long> {
 
 	@Query("SELECT q FROM Questions q WHERE q.id = :id")
-	Optional<Questions> fetchByIdCustom(Long id);
+	List<Questions> fetchByIdCustom(Long id);
 
 }
