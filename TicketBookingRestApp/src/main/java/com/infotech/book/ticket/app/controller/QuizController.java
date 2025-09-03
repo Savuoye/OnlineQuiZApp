@@ -146,11 +146,11 @@ public class QuizController {
 		Questions updatedQuestion = questionService.updateQuestion(id, questionDetails);
 		return ResponseEntity.ok(updatedQuestion);
 	}
-	
+
 	@PostMapping(value = "/quizzes/{quizId}/questions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Questions> addQuestions(@PathVariable Long quizId, @RequestBody Questions questionDetails) {
 
-		Quiz quiz = (Quiz) quizServiceImpl.getAllQuizzes();
+		Quiz quiz = (Quiz) quizServiceImpl.getQuizById(quizId);
 		if (quiz == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
