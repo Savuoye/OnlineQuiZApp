@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -22,6 +22,9 @@ import com.infotech.book.dao.UploadResult;
 import com.infotech.book.ticket.app.dao.QuizRepository;
 import com.infotech.book.ticket.app.entities.Questions;
 import com.infotech.book.ticket.app.entities.Quiz;
+import com.infotech.book.ticket.app.entities.QuizResult;
+import com.infotech.book.ticket.app.entities.QuizSubmission;
+import com.infotech.book.ticket.app.entities.User;
 import com.infotech.book.ticket.exception.NoQuizzesFoundException;
 
 @Service
@@ -97,7 +100,34 @@ public class QuizServiceImpl {
 
 	public Quiz getQuizById(Long id) {
 		logger.info("Getting quizzes in the form  of id  from the database:::");
-		return quizRepository.findQuizById(id).orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
+		return quizRepository.findQuizById(id);
+	}
+
+	public void saveQuizResult(User user, Quiz quiz, int score) {
+		QuizResult quizResult = new QuizResult();
+		quizResult.setUser(user);
+		quizResult.setQuiz(quiz);
+		quizResult.setScore(score);
+	}
+
+	@SuppressWarnings("unused")
+	private int evaluateSubmission(QuizSubmission quizSubmission) {
+		int correctAnswer = 0;
+		Quiz quiz = getQuizById(quizSubmission.getQuizId());
+		Map<Long, Character> submittedAnswers = quizSubmission.getAnswers();
+		for (Questions questions : quiz.getQuestions()) {
+			Long questionId = questions.getId();
+			String correctOption = questions.getCorrectOption().toUpperCase();
+			if (submittedAnswers.containsKey(questionId)) {
+				String submittedOption = String.valueOf(Character.toUpperCase(submittedAnswers.get(questionId)));
+				if (submittedOption == correctOption) {
+					correctAnswer++;
+				}
+
+			}
+
+		}
+		return correctAnswer;
 	}
 
 }
