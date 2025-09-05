@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.infotech.book.dao.UploadResult;
 import com.infotech.book.ticket.app.dao.QuizRepository;
+import com.infotech.book.ticket.app.dao.QuizResultRepository;
 import com.infotech.book.ticket.app.entities.Questions;
 import com.infotech.book.ticket.app.entities.Quiz;
 import com.infotech.book.ticket.app.entities.QuizResult;
@@ -32,6 +33,9 @@ public class QuizServiceImpl {
 
 	@Autowired
 	private QuizRepository quizRepository;
+
+	@Autowired
+	private QuizResultRepository quizResultRepository;
 
 	@Autowired
 	private Validator validator;
@@ -103,16 +107,18 @@ public class QuizServiceImpl {
 		return quizRepository.findQuizById(id);
 	}
 
-	public void saveQuizResult(User user, Quiz quiz, int score) {
+	public QuizResult saveQuizResult(User user, Quiz quiz, int score) {
 		QuizResult quizResult = new QuizResult();
 		quizResult.setUser(user);
 		quizResult.setQuiz(quiz);
 		quizResult.setScore(score);
+		return quizResultRepository.save(quizResult);
 	}
 
 	@SuppressWarnings("unused")
 	private int evaluateSubmission(QuizSubmission quizSubmission) {
 		int correctAnswer = 0;
+		int wrongAnswer = 0;
 		Quiz quiz = getQuizById(quizSubmission.getQuizId());
 		Map<Long, Character> submittedAnswers = quizSubmission.getAnswers();
 		for (Questions questions : quiz.getQuestions()) {
@@ -122,6 +128,9 @@ public class QuizServiceImpl {
 				String submittedOption = String.valueOf(Character.toUpperCase(submittedAnswers.get(questionId)));
 				if (submittedOption == correctOption) {
 					correctAnswer++;
+				} else {
+					wrongAnswer++;
+
 				}
 
 			}
