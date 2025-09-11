@@ -1,0 +1,149 @@
+/* General Reset */
+body, html, .App {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.landing-container {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  
+  
+}
+
+.nav-links li {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.nav-buttons .btn {
+
+    
+  margin-left: 10px;
+  padding: 8px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.login {
+  background: #5a67d8;
+  color: #fff;
+}
+
+.btn.signup {
+  background: #5a67d8;
+  color: #fff;
+}
+
+/* Hero */
+.hero {
+  background: #e6e6ff;
+  padding: 50px;
+  text-align: center;
+}
+
+.hero .highlight {
+  color: #ff6600;
+  font-weight: bold;
+}
+
+.hero-buttons {
+
+
+  color: #fff;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn.purple {
+  background: purple;
+  color: #fff;
+}
+
+.btn.blue {
+  background: blue;
+  color: #fff;
+}
+
+/* Sections */
+section {
+  padding: 50px;
+  text-align: center;
+}
+
+.steps, .features, .community-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+  
+}
+
+.step, .feature, .card {
+  background: #CBC3E3;
+  padding: 20px;
+  border-radius: 12px;
+  flex: 1;
+}
+
+.card button {
+  margin-top: 10px;
+  padding: 6px 12px;
+  border: none;
+  background: #5a67d8;
+  color: white;
+  border-radius: 6px;
+}
+
+/* Footer */
+.footer {
+  background: #f2f2f2;
+  padding: 30px 50px;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-newsletter input {
+  padding: 8px;
+  margin-right: 5px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.footer-links h5 {
+  margin-bottom: 10px;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
