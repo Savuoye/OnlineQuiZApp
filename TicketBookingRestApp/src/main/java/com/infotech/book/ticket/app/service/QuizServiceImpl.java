@@ -112,6 +112,9 @@ public class QuizServiceImpl {
 		quizResult.setUser(user);
 		quizResult.setQuiz(quiz);
 		quizResult.setScore(score);
+		
+		logger.info("Saving quiz result into the database :::::");
+		
 		return quizResultRepository.save(quizResult);
 	}
 
@@ -136,6 +139,7 @@ public class QuizServiceImpl {
 			}
 
 		}
+		logger.info("Evaluating submission logic :::::");
 		return correctAnswer;
 	}
 
