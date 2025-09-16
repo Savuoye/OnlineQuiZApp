@@ -55,6 +55,36 @@ public class Questions {
 	@Column(columnDefinition = "TEXT")
 	private String explanation;
 
+	@Column(columnDefinition = "category")
+	private String category;
+
+	@Column(columnDefinition = "difficulty")
+	private String difficulty;
+
+	public String getExplanation() {
+		return explanation;
+	}
+
+	public void setExplanation(String explanation) {
+		this.explanation = explanation;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(String difficulty) {
+		this.difficulty = difficulty;
+	}
+
 	public Long getId() {
 		return id;
 	}

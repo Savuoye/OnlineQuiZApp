@@ -1,6 +1,9 @@
 package com.infotech.book.ticket.app.controller;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,7 @@ import com.infotech.book.ticket.app.entities.Questions;
 import com.infotech.book.ticket.app.entities.Quiz;
 import com.infotech.book.ticket.app.entities.User;
 import com.infotech.book.ticket.app.response.LoginResponse;
+import com.infotech.book.ticket.app.service.CsvExportService;
 import com.infotech.book.ticket.app.service.QuestionService;
 import com.infotech.book.ticket.app.service.QuizServiceImpl;
 import com.infotech.book.ticket.app.service.UserService;
@@ -45,6 +49,9 @@ public class QuizController {
 
 	@Autowired
 	private QuestionRepository questionRepository;
+
+	@Autowired
+	private CsvExportService exportService;
 
 	@CrossOrigin
 	@PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -103,7 +110,7 @@ public class QuizController {
 
 	}
 
-	@DeleteMapping("/questions/{id}")
+	@DeleteMapping(value = "/questions/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
 		if (!questionRepository.exists(id)) {
 			return ResponseEntity.notFound().build(); // 404 if not found
@@ -111,6 +118,15 @@ public class QuizController {
 
 		questionRepository.delete(id);
 		return ResponseEntity.noContent().build(); // 204 No Content
+	}
+
+	@GetMapping(value = "/questions/{quizId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void exportQuestionsByQuizId(@PathVariable Long quizId, HttpServletResponse response) throws IOException {
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", "attachment; filename=\"quiz-" + quizId + "-questions.csv\"");
+
+		exportService.writeQuestionsToCsv(response.getOutputStream());
+
 	}
 
 }
