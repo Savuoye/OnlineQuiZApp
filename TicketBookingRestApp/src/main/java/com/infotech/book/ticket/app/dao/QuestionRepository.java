@@ -14,4 +14,7 @@ public interface QuestionRepository extends JpaRepository<Questions, Long> {
 	@Query("SELECT q FROM Questions q WHERE q.id = :id")
 	List<Questions> fetchByIdCustom(Long id);
 
+	@Query("SELECT q FROM Questions q WHERE q.quiz.id = :quizId")
+	List<Questions> findByQuizId(Long quizId);
+
 }
