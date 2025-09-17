@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.infotech.book.ticket.app.dao.QuestionRepository;
 import com.infotech.book.ticket.app.entities.Questions;
+import com.infotech.book.ticket.app.entities.QuizSubmission;
+import com.infotech.book.ticket.exception.NoQuizzesFoundException;
 
 @Service
 public class QuestionService {
@@ -65,4 +67,6 @@ public class QuestionService {
 		}
 		return correctAnswers;
 	}
+	
+
 }
