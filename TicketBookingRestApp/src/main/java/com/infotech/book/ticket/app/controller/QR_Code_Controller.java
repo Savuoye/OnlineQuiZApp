@@ -46,7 +46,8 @@ public class QR_Code_Controller {
 	 * Variable.
 	 * 
 	 * codeText: We can pass any random text which can act as secret text when
-	 * somebody scans the QR Code. width: Specify the width of the QR Code image.
+	 * somebody scans the QR Code. 
+	 * width: Specify the width of the QR Code image.
 	 * height: To specify the height of QR Code image.
 	 * 
 	 * In the above code, you can see we have specified the path
