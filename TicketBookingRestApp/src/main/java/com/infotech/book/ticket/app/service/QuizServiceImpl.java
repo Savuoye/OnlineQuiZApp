@@ -3,12 +3,15 @@ package com.infotech.book.ticket.app.service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -21,9 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.infotech.book.dao.UploadResult;
 import com.infotech.book.ticket.app.dao.QuizRepository;
 import com.infotech.book.ticket.app.dao.QuizResultRepository;
+import com.infotech.book.ticket.app.dao.QuizSessionRepository;
 import com.infotech.book.ticket.app.entities.Questions;
 import com.infotech.book.ticket.app.entities.Quiz;
 import com.infotech.book.ticket.app.entities.QuizResult;
+import com.infotech.book.ticket.app.entities.QuizSession;
 import com.infotech.book.ticket.app.entities.QuizSubmission;
 import com.infotech.book.ticket.app.entities.User;
 import com.infotech.book.ticket.exception.NoQuizzesFoundException;
@@ -36,6 +41,9 @@ public class QuizServiceImpl {
 
 	@Autowired
 	private QuizResultRepository quizResultRepository;
+
+	@Autowired
+	private QuizSessionRepository quizSessionRepo;
 
 	@Autowired
 	private Validator validator;
@@ -112,9 +120,9 @@ public class QuizServiceImpl {
 		quizResult.setUser(user);
 		quizResult.setQuiz(quiz);
 		quizResult.setScore(score);
-		
+
 		logger.info("Saving quiz result into the database :::::");
-		
+
 		return quizResultRepository.save(quizResult);
 	}
 
@@ -143,4 +151,36 @@ public class QuizServiceImpl {
 		return correctAnswer;
 	}
 
+	public String generateJoinCode() {
+		String code;
+		do {
+			code = String.format("%06d", new Random().nextInt(1_000_000));
+		} while (quizSessionRepo.existsByCode(code));
+		return code;
+
+	}
+
+	public QuizSession createSession(Long quizId) {
+		Quiz quiz = quizRepository.findQuizById(quizId);
+
+		QuizSession session = new QuizSession();
+		session.setCode(generateJoinCode());
+		session.setQuiz(quiz);
+		session.setStartTime(LocalDateTime.now());
+		session.setEndTime(LocalDateTime.now().plusMinutes(quiz.getDurationInSeconds()));
+		session.setActive(true);
+
+		return quizSessionRepo.save(session);
+
+	}
+
+	public QuizSession validateJoinCode(String code) {
+		if (!code.matches("\\d{6}")) {
+			throw new IllegalArgumentException("Invalid code format");
+		}
+
+		return quizSessionRepo.findByCodeAndActiveTrue(code)
+				.filter(session -> session.getEndTime().isAfter(LocalDateTime.now()))
+				.orElseThrow(() -> new EntityNotFoundException("Quiz not found or expired"));
+	}
 }
