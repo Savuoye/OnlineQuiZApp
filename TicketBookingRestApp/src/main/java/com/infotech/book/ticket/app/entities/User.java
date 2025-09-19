@@ -1,10 +1,12 @@
 package com.infotech.book.ticket.app.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -29,6 +31,9 @@ public class User {
 	@Column(name = "confirmPassword")
 	@Transient
 	private String confirmPassword;
+
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private UserProfiles profile;
 
 	public Long getId() {
 		return id;
@@ -70,10 +75,18 @@ public class User {
 		this.confirmPassword = confirmPassword;
 	}
 
+	public UserProfiles getProfile() {
+		return profile;
+	}
+
+	public void setProfile(UserProfiles profile) {
+		this.profile = profile;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", confirmPassword=" + confirmPassword + "]";
+				+ ", confirmPassword=" + confirmPassword + ", profile=" + profile + "]";
 	}
 
 }
