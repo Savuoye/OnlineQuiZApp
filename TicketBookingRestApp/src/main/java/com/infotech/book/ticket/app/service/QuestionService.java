@@ -7,14 +7,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 
 import com.infotech.book.ticket.app.dao.QuestionRepository;
 import com.infotech.book.ticket.app.entities.Questions;
-import com.infotech.book.ticket.app.entities.QuizSubmission;
-import com.infotech.book.ticket.exception.NoQuizzesFoundException;
 
-@Service
+@Controller
 public class QuestionService {
 
 	@Autowired
