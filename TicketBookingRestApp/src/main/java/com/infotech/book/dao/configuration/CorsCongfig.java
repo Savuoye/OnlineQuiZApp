@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.Validator;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -21,6 +22,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @Configuration
 public class CorsCongfig {
@@ -33,6 +37,11 @@ public class CorsCongfig {
 						.allowedOrigins("http://localhost:3000").allowedMethods("GET", "POST", "PUT", "DELETE")
 						.allowedHeaders("*").allowCredentials(true);
 			}
+		/*    @Bean
+		    public PasswordEncoder passwordEncoder() {
+		        return new BCryptPasswordEncoder();
+		    }*/
+
 
 			@Override
 			public void configurePathMatch(PathMatchConfigurer configurer) {
