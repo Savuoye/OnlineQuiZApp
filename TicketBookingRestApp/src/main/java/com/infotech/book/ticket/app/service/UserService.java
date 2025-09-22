@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.infotech.book.ticket.app.dao.CharacterRepository;
@@ -78,4 +78,16 @@ public class UserService {
 
 	}
 
+	private UserProfiles editProfile(UserProfiles userProfile) {
+        UserProfiles profile = new UserProfiles();
+        profile.setFirstName(userProfile.getFirstName());
+        profile.setLastName(userProfile.getLastName());
+        profile.setEmail(userProfile.getEmail());
+        profile.setBio(userProfile.getBio());
+        profile.setJobTitle(userProfile.getJobTitle());
+        profile.setCompany(userProfile.getCompany());
+        profile.setLocation(userProfile.getLocation());
+        profile.setWebsite(userProfile.getWebsite());
+        return profile;
+    }
 }
