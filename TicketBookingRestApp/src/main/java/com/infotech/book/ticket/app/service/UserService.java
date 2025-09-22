@@ -6,10 +6,14 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.infotech.book.ticket.app.dao.CharacterRepository;
+import com.infotech.book.ticket.app.dao.UserProfileRepository;
 import com.infotech.book.ticket.app.dao.UserRepository;
 import com.infotech.book.ticket.app.entities.User;
+import com.infotech.book.ticket.app.entities.UserProfiles;
 import com.infotech.book.ticket.app.response.LoginResponse;
 import com.infotech.book.ticket.request.LoginRequest;
 
@@ -18,6 +22,15 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private UserProfileRepository userProfileRepository;
+
+	@Autowired
+	private CharacterRepository characterRepository;
+
+/*	@Autowired
+	private PasswordEncoder passwordEncoder;*/
 
 	private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -29,7 +42,7 @@ public class UserService {
 	public Optional<User> findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
-	
+
 	public List<User> getAllUsers() {
 		logger.info("Fetch all data from database :::::");
 		return userRepository.findAll();
@@ -40,6 +53,29 @@ public class UserService {
 		boolean isAuthenticated = user != null;
 
 		return new LoginResponse(user, isAuthenticated);
+	}
+
+	public void createProfile(UserProfiles userProfile) {
+		if (userRepository.existsByEmail(userProfile.getEmail())) {
+			throw new IllegalArgumentException("Email already registered");
+		}
+
+		User user = new User();
+		user.setEmail(user.getEmail());
+		//user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		userProfile.setUser(user);
+		userProfile.setFirstName(userProfile.getFirstName());
+		userProfile.setLastName(userProfile.getLastName());
+		userProfile.setBio(userProfile.getBio());
+		userProfile.setJobTitle(userProfile.getJobTitle());
+		userProfile.setCompany(userProfile.getCompany());
+		userProfile.setLocation(userProfile.getLocation());
+		userProfile.setWebsite(userProfile.getWebsite());
+
+		user.setProfile(userProfile);
+		userRepository.save(user);
+
 	}
 
 }

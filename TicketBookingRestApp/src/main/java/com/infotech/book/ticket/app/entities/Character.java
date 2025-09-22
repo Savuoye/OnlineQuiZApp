@@ -1,12 +1,21 @@
 package com.infotech.book.ticket.app.entities;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "characters")
 public class Character {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "characterId")
-	private String characterId;
+	private Long characterId;
 
 	@Column(name = "characterName")
 	private String characterName;
@@ -18,11 +27,11 @@ public class Character {
 	@Column(columnDefinition = "MEDIUMBLOB")
 	private byte[] imageData;
 
-	public String getCharacterId() {
+	public Long getCharacterId() {
 		return characterId;
 	}
 
-	public void setCharacterId(String characterId) {
+	public void setCharacterId(Long characterId) {
 		this.characterId = characterId;
 	}
 
