@@ -1,6 +1,7 @@
 package com.infotech.book.ticket.app.dao;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,5 @@ public interface UserProfileRepository extends JpaRepository<UserProfiles, Long>
 
 	@Query("SELECT q FROM UserProfiles q WHERE q.user.id = :userId")
 	List<UserProfiles> findByUserId(Long userId);
+
 }
