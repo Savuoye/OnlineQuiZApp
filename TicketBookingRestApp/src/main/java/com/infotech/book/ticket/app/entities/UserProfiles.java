@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,9 +33,6 @@ public class UserProfiles {
 
 	@Column(name = "lastName")
 	private String lastName;
-
-	@Column(name = "characterId")
-	private String characterId;
 
 	@Column(name = "bio")
 	private String bio;
@@ -63,6 +61,10 @@ public class UserProfiles {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "quiz_id")
 	private User user;
+
+	@ManyToOne
+	@JoinColumn(name = "character_id")
+	private Character character;
 
 	public Long getId() {
 		return id;
@@ -102,14 +104,6 @@ public class UserProfiles {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getCharacterId() {
-		return characterId;
-	}
-
-	public void setCharacterId(String characterId) {
-		this.characterId = characterId;
 	}
 
 	public String getBio() {
@@ -182,6 +176,14 @@ public class UserProfiles {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Character getCharacter() {
+		return character;
+	}
+
+	public void setCharacter(Character character) {
+		this.character = character;
 	}
 
 }
