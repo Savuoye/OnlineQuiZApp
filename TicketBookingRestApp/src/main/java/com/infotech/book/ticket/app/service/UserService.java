@@ -29,8 +29,9 @@ public class UserService {
 	@Autowired
 	private CharacterRepository characterRepository;
 
-/*	@Autowired
-	private PasswordEncoder passwordEncoder;*/
+	/*
+	 * @Autowired private PasswordEncoder passwordEncoder;
+	 */
 
 	private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -62,7 +63,8 @@ public class UserService {
 
 		User user = new User();
 		user.setEmail(user.getEmail());
-		//user.setPassword(passwordEncoder.encode(user.getPassword()));
+		// user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setPassword(userProfile.getPassword());
 
 		userProfile.setUser(user);
 		userProfile.setFirstName(userProfile.getFirstName());
@@ -73,21 +75,27 @@ public class UserService {
 		userProfile.setLocation(userProfile.getLocation());
 		userProfile.setWebsite(userProfile.getWebsite());
 
+		if (userProfile.getCharacter() != null) {
+			com.infotech.book.ticket.app.entities.Character character = characterRepository
+					.findByCharaterId(userProfile.getCharacter());
+			userProfile.setCharacter(character);
+		}
+
 		user.setProfile(userProfile);
 		userRepository.save(user);
 
 	}
 
-	private UserProfiles editProfile(UserProfiles userProfile) {
-        UserProfiles profile = new UserProfiles();
-        profile.setFirstName(userProfile.getFirstName());
-        profile.setLastName(userProfile.getLastName());
-        profile.setEmail(userProfile.getEmail());
-        profile.setBio(userProfile.getBio());
-        profile.setJobTitle(userProfile.getJobTitle());
-        profile.setCompany(userProfile.getCompany());
-        profile.setLocation(userProfile.getLocation());
-        profile.setWebsite(userProfile.getWebsite());
-        return profile;
-    }
+	/*
+	 * private UserProfiles editProfile(UserProfiles userProfile) { UserProfiles
+	 * profile = new UserProfiles();
+	 * profile.setFirstName(userProfile.getFirstName());
+	 * profile.setLastName(userProfile.getLastName());
+	 * profile.setEmail(userProfile.getEmail());
+	 * profile.setBio(userProfile.getBio());
+	 * profile.setJobTitle(userProfile.getJobTitle());
+	 * profile.setCompany(userProfile.getCompany());
+	 * profile.setLocation(userProfile.getLocation());
+	 * profile.setWebsite(userProfile.getWebsite()); return profile; }
+	 */
 }
