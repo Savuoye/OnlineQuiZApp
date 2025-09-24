@@ -1,7 +1,10 @@
 package com.infotech.book.ticket.app.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +28,6 @@ public class UserService {
 
 	@Autowired
 	private UserProfileRepository userProfileRepository;
-
-	@Autowired
-	private CharacterRepository characterRepository;
 
 	/*
 	 * @Autowired private PasswordEncoder passwordEncoder;
@@ -64,7 +64,6 @@ public class UserService {
 		User user = new User();
 		user.setEmail(user.getEmail());
 		// user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setPassword(userProfile.getPassword());
 
 		userProfile.setUser(user);
 		userProfile.setFirstName(userProfile.getFirstName());
@@ -75,27 +74,61 @@ public class UserService {
 		userProfile.setLocation(userProfile.getLocation());
 		userProfile.setWebsite(userProfile.getWebsite());
 
-		if (userProfile.getCharacter() != null) {
-			com.infotech.book.ticket.app.entities.Character character = characterRepository
-					.findByCharaterId(userProfile.getCharacter());
-			userProfile.setCharacter(character);
-		}
-
 		user.setProfile(userProfile);
 		userRepository.save(user);
 
 	}
 
-	/*
-	 * private UserProfiles editProfile(UserProfiles userProfile) { UserProfiles
-	 * profile = new UserProfiles();
-	 * profile.setFirstName(userProfile.getFirstName());
-	 * profile.setLastName(userProfile.getLastName());
-	 * profile.setEmail(userProfile.getEmail());
-	 * profile.setBio(userProfile.getBio());
-	 * profile.setJobTitle(userProfile.getJobTitle());
-	 * profile.setCompany(userProfile.getCompany());
-	 * profile.setLocation(userProfile.getLocation());
-	 * profile.setWebsite(userProfile.getWebsite()); return profile; }
-	 */
+	@SuppressWarnings("unused")
+	public UserProfiles updateProfile(Long id, Map<String, Object> updateProfiles) {
+		List<UserProfiles> userProfiles = userProfileRepository.findByUserId(id);
+
+		if (userProfiles.isEmpty()) {
+			throw new EntityNotFoundException("No Profile found for userId");
+		}
+
+		for (UserProfiles userProfile : userProfiles) {
+			applyUpdates(userProfile, updateProfiles);
+		}
+		return (UserProfiles) userProfileRepository.save(userProfiles);
+
+	}
+
+	private void applyUpdates(UserProfiles userProfiles, Map<String, Object> updates) {
+		for (Map.Entry<String, Object> entry : updates.entrySet()) {
+			String key = entry.getKey();
+			Object object = entry.getValue();
+			switch (key) {
+			case "firstName":
+				userProfiles.setFirstName(castToString(object.toString()));
+				break;
+			case "lastName":
+				userProfiles.setLastName(castToString(object.toString()));
+				break;
+			case "bio":
+				userProfiles.setBio(castToString(object.toString()));
+				break;
+			case "jobTitle":
+				userProfiles.setJobTitle(castToString(object.toString()));
+				break;
+			case "company":
+				userProfiles.setCompany(castToString(object.toString()));
+				break;
+			case "location":
+				userProfiles.setLocation(castToString(object.toString()));
+				break;
+			case "website":
+				userProfiles.setWebsite(castToString(object.toString()));
+				break;
+			default:
+				throw new IllegalArgumentException("Invalid field: " + key);
+			}
+		}
+
+	}
+
+	private String castToString(Object value) {
+		return value != null ? value.toString() : null;
+	}
+
 }
