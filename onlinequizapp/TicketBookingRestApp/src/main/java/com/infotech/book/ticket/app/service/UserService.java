@@ -131,4 +131,8 @@ public class UserService {
 		return value != null ? value.toString() : null;
 	}
 
+	public void deleteProfile(Long id) {
+		userProfileRepository.deleteProfileById(id);
+	}
+
 }
