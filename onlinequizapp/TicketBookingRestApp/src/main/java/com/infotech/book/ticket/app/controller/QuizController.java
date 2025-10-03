@@ -129,4 +129,14 @@ public class QuizController {
 
 	}
 
+	@GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Quiz> getQuizById(@PathVariable("id") Long id) {
+		Quiz quiz = quizServiceImpl.getQuizById(id);
+		if (quiz != null) {
+			return ResponseEntity.ok(quiz);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+
 }
