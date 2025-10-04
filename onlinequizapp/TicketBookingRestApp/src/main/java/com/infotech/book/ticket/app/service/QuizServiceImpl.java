@@ -126,12 +126,12 @@ public class QuizServiceImpl {
 		return quizResultRepository.save(quizResult);
 	}
 
-	/*@SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private int evaluateSubmission(QuizSubmission quizSubmission) {
 		int correctAnswer = 0;
 		int wrongAnswer = 0;
 		Quiz quiz = getQuizById(quizSubmission.getQuizId());
-		Map<Long, com.infotech.book.ticket.app.entities.Character> submittedAnswers = quizSubmission.getAnswers();
+		Map<Long, Character> submittedAnswers = quizSubmission.getAnswers();
 		for (Questions questions : quiz.getQuestions()) {
 			Long questionId = questions.getId();
 			String correctOption = questions.getCorrectOption().toUpperCase();
@@ -149,7 +149,7 @@ public class QuizServiceImpl {
 		}
 		logger.info("Evaluating submission logic :::::");
 		return correctAnswer;
-	}*/
+	}
 
 	public String generateJoinCode() {
 		String code;
