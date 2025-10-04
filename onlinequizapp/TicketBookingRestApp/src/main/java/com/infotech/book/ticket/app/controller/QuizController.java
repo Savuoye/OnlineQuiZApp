@@ -139,4 +139,14 @@ public class QuizController {
 		}
 	}
 
+	@PostMapping(value = "/createQuiz", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz quiz) {
+		try {
+			Quiz createdQuiz = quizServiceImpl.createQuiz(quiz);
+			return ResponseEntity.status(HttpStatus.CREATED).body(createdQuiz);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
+
 }

@@ -99,6 +99,16 @@ public class QuizServiceImpl {
 
 	}
 
+	public Quiz createQuiz(Quiz quiz) {
+		if (quizRepository.findByQuizUrl(quiz.getQuizUrl()).isPresent()) {
+			throw new IllegalArgumentException("Quiz URL already exists");
+		}
+		for (Questions questions : quiz.getQuestions()) {
+			questions.setQuiz(quiz);
+		}
+		return quizRepository.save(quiz);
+	}
+
 	public List<Quiz> getAllQuizzes() {
 		List<Quiz> quizzes = quizRepository.findAll();
 		if (quizzes == null || quizzes.isEmpty()) {
